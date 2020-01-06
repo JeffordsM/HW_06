@@ -5,18 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />    <link rel="stylesheet" href="styles.css" />
     <title>Weather API</title>
 </head>
 
 <body>
-    <h1>Weather Homework</h1>
-    <div id="buttons-view"></div>
-    <form id="city_input" method="POST">
-        <label for="text_input">Enter City:</label>
-        <input type="text" placeholder="Your City" name="text_input" id="text_input" />
-    </form>
-    <div id="target"></div>
+    <nav class="navbar navbar-dark bg-dark">
+        <span class="navbar-brand mb-0 h1">Weather Homework</span>
+    </nav>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <form id="city_input" method="POST">
+                    <label class="sr-only" for="text_input">Enter City:</label>
+                    <input type="text" class="form-control mb-2" placeholder="City" id="text_input" />
+                </form>
+                <div class="btn-group-vertical col-md-12" id="buttons-view"></div>
+            </div>
+            <div class="col-md-9">
+                <div id="header_target"></div>
+                <div id="info_target"></div>
+                <div id="forcast_target"></div>
+            </div>
+        </div>
+    </div>
 
 
 

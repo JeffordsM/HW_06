@@ -1,5 +1,7 @@
 var input = $("#text_input")
-var target = $("#target")
+var targetHead = $("#header_target")
+var targetInfo = $("#info_target")
+var targetForcast = $("#forcast_target")
 var form = $("#city_input")
 var buttons = $("#buttons-view")
 
@@ -44,7 +46,7 @@ function makeButtons() {
 
     previousCities.forEach(function (x) {
         var a = $("<button>");
-        a.addClass("cityBtn");
+        a.addClass("cityBtn btn btn-primary btn-lg btn-block");
         a.attr("data-name", x);
         a.text(x);
         buttons.append(a);
@@ -60,7 +62,7 @@ function displayWeather() {
 
     var City = thisCity.split(" ").join("+");
 
-    var queryURL = `http://api.openweathermap.org/data/2.5/weather?q=${City}&APPID=${APIKey}`
+    var queryURL = `http://api.openweathermap.org/data/2.5/weather?q=${City}&units=imperial&APPID=${APIKey}`
 
     $.ajax({
         url: queryURL,
@@ -75,23 +77,67 @@ function displayWeather() {
 
         console.log(response)
 
-        console.log(error)
         if (error == 1) {
             return
         }
 
+
         var newWords = $("<div>")
-        newWords.append($(`<h2>City: ${response.name}</h2>`))
-        newWords.append($(`<h2>Temp: ${response.main.temp}</h2>`))
-        newWords.append($(`<h2>Wind: ${response.wind.speed}</h2>`))
-        newWords.append($(`<h2>Weather: ${response.weather[0].main}</h2>`))
+        targetHead.html($(`<h2>${response.name} (${moment().format('L')}) <img id="wicon" src="http://openweathermap.org/img/w/${response.weather[0].icon}.png" alt="Weather icon"></h2>`))
+        newWords.append($(`<h3>Temperature: ${response.main.temp}</h3>`))
+        newWords.append($(`<h3>Humidity: ${response.main.humidity}%</h3>`))
+        newWords.append($(`<h3>Wind Speed: ${response.wind.speed}</h3>`))
 
-        target.html(newWords);
+        targetInfo.html(newWords);
 
-
+        addUV(response.coord.lat, response.coord.lon);
+        addForcast(response.name)
 
         addCity();
     })
+}
+
+function addUV(x, y) {
+
+    var APIKey = "5d325ab0a48a69f68729abab202f44bf"
+
+    var queryURL = `http://api.openweathermap.org/data/2.5/uvi?appid=${APIKey}&lat=${x}&lon=${y}`
+
+    $.ajax({
+        url: queryURL,
+        method: "GET",
+    }).then(function (response) {
+        console.log(response)
+        targetInfo.append($(`<h3>UV Index: ${response.value}</h3>`))
+    })
+
+}
+
+function addForcast(z) {
+
+    var APIKey = "5d325ab0a48a69f68729abab202f44bf"
+
+    var queryURL = `http://api.openweathermap.org/data/2.5/forecast/?q=${z}&units=imperial&appid=${APIKey}`
+
+    $.ajax({
+        url: queryURL,
+        method: "GET",
+    }).then(function (response) {
+        targetForcast.empty();
+        var t = 0
+        for (i=5; i<40; i+=8) {
+            t++
+            console.log(response.list[i])
+            var newForcast = $("<div>")
+            newForcast.addClass("forcast")
+            newForcast.append(`<h3>${moment().add(t, 'days').format('L')}</h3>`)
+            newForcast.append(`<img id="wicon" src="http://openweathermap.org/img/w/${response.list[i].weather[0].icon}.png" alt="Weather icon"></h2>`)
+            newForcast.append(`<h3>Temperature: ${response.list[i].main.temp}</h3>`)
+            newForcast.append(`<h3>Humidity: ${response.list[i].main.humidity}%</h3>`)
+            targetForcast.append(newForcast)
+        }
+    })
+
 }
 
 function storeBtn() {
