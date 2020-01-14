@@ -62,7 +62,7 @@ function displayWeather() {
 
     var City = thisCity.split(" ").join("+");
 
-    var queryURL = `http://api.openweathermap.org/data/2.5/weather?q=${City}&units=imperial&APPID=${APIKey}`
+    var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${City}&units=imperial&APPID=${APIKey}`
 
     $.ajax({
         url: queryURL,
@@ -101,7 +101,7 @@ function addUV(x, y) {
 
     var APIKey = "5d325ab0a48a69f68729abab202f44bf"
 
-    var queryURL = `http://api.openweathermap.org/data/2.5/uvi?appid=${APIKey}&lat=${x}&lon=${y}`
+    var queryURL = `https://api.openweathermap.org/data/2.5/uvi?appid=${APIKey}&lat=${x}&lon=${y}`
 
     $.ajax({
         url: queryURL,
@@ -117,7 +117,7 @@ function addForcast(z) {
 
     var APIKey = "5d325ab0a48a69f68729abab202f44bf"
 
-    var queryURL = `http://api.openweathermap.org/data/2.5/forecast/?q=${z}&units=imperial&appid=${APIKey}`
+    var queryURL = `https://api.openweathermap.org/data/2.5/forecast/?q=${z}&units=imperial&appid=${APIKey}`
 
     $.ajax({
         url: queryURL,
@@ -131,7 +131,7 @@ function addForcast(z) {
             var newForcast = $("<div>")
             newForcast.addClass("forcast")
             newForcast.append(`<h3>${moment().add(t, 'days').format('L')}</h3>`)
-            newForcast.append(`<img id="wicon" src="http://openweathermap.org/img/w/${response.list[i].weather[0].icon}.png" alt="Weather icon"></h2>`)
+            newForcast.append(`<img id="wicon" src="https://openweathermap.org/img/w/${response.list[i].weather[0].icon}.png" alt="Weather icon"></h2>`)
             newForcast.append(`<h3>Temperature: ${response.list[i].main.temp}</h3>`)
             newForcast.append(`<h3>Humidity: ${response.list[i].main.humidity}%</h3>`)
             targetForcast.append(newForcast)
